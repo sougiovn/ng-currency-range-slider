@@ -1,0 +1,22 @@
+{
+  "name": "ng-currency-range-slider",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Giovane Souza <giovane.bds@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/gigioSouza/ng-currency-range-slider",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "currency-range-slider": "v1.0.0",
+    "angular": "1.2"
+  }
+}
