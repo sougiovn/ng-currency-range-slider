@@ -6,7 +6,7 @@
   
   <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
   
-  <title>Range Slider</title>
+  <title>Ng Currency Range Slider</title>
   
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
@@ -22,7 +22,7 @@
   <div class="container">
     <div class="col-12">
       <span class="navbar-brand mb-0 h1">Ng Currency Range Slider</span>
-      <a class="navbar-brand pull-right" href="https://github.com/gigioSouza/vanilla-component-gulp-sass-builder">
+      <a class="navbar-brand pull-right" href="https://github.com/gigioSouza/ng-currency-range-slider">
         <i class="fa fa-github"></i>
       </a>
     </div>
@@ -30,46 +30,89 @@
 </nav>
 
 
-<div class="container">
-  <div class="col-12" ng-app="demo" ng-controller="demoController as vm">
+<div class="container" ng-app="demo" ng-controller="demoController as vm">
+  <div class="col-12">
+    <p>
+      Wrapper AngularJS para o componente:
+      <a target="_blank" href="https://gigiosouza.github.io/currency-range-slider/">
+        Currency Range Slider
+      </a>.
+    </p>
+    <h3 class="anchor" id="how-to">
+      Modo de uso <a href="#how-to"><i class="fa fa-link"></i></a>
+    </h3>
+    <p>
+      Importe o módulo <code>nggs.currency-range-slider</code> em seu app. <br/>
+    </p>
+    <h6>Exemplo</h6>
+    <pre>angular.module('yourApp', ['nggs.currency-range-slider']);</pre>
+    <p>
+      Os atributos de configuração do componente original foram transformados em atributos da diretiva. <br/>
+      O atributo <code>on-range-change</code> é o callback chamado quando há alteração de valores.
+      Nele é passado o parâmetro <code>$event</code> que corresponde a um objeto contendo o novo intervalo
+      selecionado({min, max}).
+    </p>
+    <h6>Exemplo</h6>
+    <pre>&lt;ng-currency-range-slider
+  ...
+  on-range-change="rangeUpdated($event)"&gt;
+&lt;/ng-currency-range-slider&gt;
+
+function rangeUpdated(newRange) {
+  // do something when range is updated
+}</pre>
     
-    <ng-currency-range-slider
-      min="vm.basicSlider.min"
-      max="vm.basicSlider.max"
-      range="vm.basicSlider.range">
-    </ng-currency-range-slider>
-    
-    <hr />
+    <h6>Diretiva completa</h6>
+    <pre>&lt;ng-currency-range-slider
+  colors="{
+    sliderBgColor,
+    sliderBoxShadowColor,
+    highlightBgColor,
+    highlightBoxShadowColor,
+    viewerBgColor,
+    viewerColor,
+    viewerInputBottomBorder
+  }"
+  debounce-time="number"
+  input-enter="boolean"
+  label-prefix="string"
+  limit-to-range="boolean"
+  max="number"
+  min="number"
+  on-range-change="callback function"
+  range="{ min, max }"
+  value-formatter="function reference"
+  value-parser="function reference"&gt;
+&lt;/ng-currency-range-slider&gt;</pre>
+  </div>
   
-    <ng-currency-range-slider
-      min="vm.labelSlider.min"
-      max="vm.labelSlider.max"
-      label-prefix="vm.labelSlider.labelPrefix"
-      range="vm.labelSlider.range">
-    </ng-currency-range-slider>
+  <div class="col-12">
+    <h3 class="anchor" id="config">
+      Configuração <a href="#config"><i class="fa fa-link"></i></a>
+    </h3>
+    <p>
+      Para você não de passar sempre os mesmos parâmetros de configuração, você pode usar o <code>Provider</code>
+      de configuração no qual você define uma configuração padrão e pode sobrescrever na diretiva quando desejar.
+    </p>
+    <h6>Exemplo</h6>
+    <pre>angular.module('yourApp', ['nggs.currency-range-slider'])
+  .config(config);
   
-    <hr />
-    
-    <ng-currency-range-slider
-      range="vm.coloredSlider.range"
-      min="vm.coloredSlider.min"
-      max="vm.coloredSlider.max"
-      label-prefix="vm.coloredSlider.labelPrefix"
-      colors="vm.coloredSlider.colors">
-    </ng-currency-range-slider>
-    
-    <br />
-  
-    <ng-currency-range-slider
-      range="vm.changeSlider.range"
-      min="vm.changeSlider.min"
-      max="vm.changeSlider.max"
-      on-range-change="vm.onRangeChange($event)">
-    </ng-currency-range-slider>
-    
-    <input type="number" ng-model="vm.changeSlider.range.min" /> -
-    <input type="number" ng-model="vm.changeSlider.range.max" />
-    
+config.$inject = ['ngCurrencyRangeSliderConfigProvider'];
+
+function config(ngCurrencyRangeSliderConfig) {
+  ngCurrencyRangeSliderConfig.setDefaults({
+    colors,
+    debounceTime,
+    inputEnter,
+    labelPrefix,
+    limitToRange,
+    max,
+    min,
+    valueFormatter,
+    valueParser
+  });
+}</pre>
   </div>
 </div>
 

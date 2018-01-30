@@ -62,7 +62,6 @@
         limitToRange: '=',
         min: '=',
         max: '=',
-        ngModel: '=',
         valueFormatter: '=',
         valueParser: '=',
         range: '=',
