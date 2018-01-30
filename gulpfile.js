@@ -13,19 +13,44 @@ const replace = require('gulp-replace');
 const packageJson = JSON.parse(fs.readFileSync('./package.json'));
 const componentName = packageJson.name;
 const componentFormattedName = formatComponentName();
-const dist = './dist';
-const src = './src';
 const bower = './bower_components/';
+const dist = './dist';
+const demo = `${dist}/demo`;
+const src = './src';
 const vendors = './vendors/';
 
-gulp.task('clean', () => gulp.src([dist, './index.html']).pipe(clean({force: true})));
+gulp.task('clean', () => {
+  return gulp.src([dist, './index.html']).pipe(clean({ force: true }));
+});
 
 gulp.task('clean:vendors', () => gulp.src(vendors).pipe(clean()));
 
-gulp.task('sass', () => {
+gulp.task('dev:sass', () => {
   gulp.src(`${src}/styles.scss`)
     .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest(dist));
+  
+  return gulp.src(`${src}/${packageJson.name}.scss`)
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest(dist));
+});
+
+gulp.task('dev:html', () => {
+  return gulp.src(`${src}/index.html`)
+    .pipe(replace(/\${component-name}/g, componentName))
+    .pipe(replace(/\${component-formatted-name}/g, componentFormattedName))
+    .pipe(gulp.dest('.'));
+});
+
+gulp.task('dev:js', () => {
+  return gulp.src(`${src}/*.js`)
+    .pipe(gulp.dest(dist));
+});
+
+gulp.task('build:sass', () => {
+  gulp.src(`${src}/styles.scss`)
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest(demo));
   
   return gulp.src(`${src}/${packageJson.name}.scss`)
     .pipe(sass().on('error', sass.logError))
@@ -36,16 +61,16 @@ gulp.task('sass', () => {
     .pipe(gulp.dest(dist));
 });
 
-gulp.task('html', () => {
+gulp.task('build:html', () => {
   return gulp.src(`${src}/index.html`)
     .pipe(replace(/\${component-name}/g, componentName))
     .pipe(replace(/\${component-formatted-name}/g, componentFormattedName))
     .pipe(gulp.dest('.'));
 });
 
-gulp.task('js', () => {
+gulp.task('build:js', () => {
   gulp.src(`${src}/*.js`)
-    .pipe(gulp.dest(dist));
+    .pipe(gulp.dest(demo));
   
   return gulp.src(`${src}/${packageJson.name}.js`)
     .pipe(uglifyjs())
@@ -56,10 +81,10 @@ gulp.task('js', () => {
 });
 
 gulp.task('watch', () => {
-  runSequence('build', () => {
-    gulp.watch(`${src}/index.html`, ['html']);
-    gulp.watch(`${src}/*.scss`, ['sass']);
-    gulp.watch(`${src}/*.js`, ['js']);
+  runSequence('demo', () => {
+    gulp.watch(`${src}/index.html`, ['dev:html']);
+    gulp.watch(`${src}/*.scss`, ['dev:sass']);
+    gulp.watch(`${src}/*.js`, ['dev:js']);
     gulp.src('.')
       .pipe(webserver({
         livereload: true,
@@ -79,17 +104,20 @@ gulp.task('vendors', () => {
 });
 
 gulp.task('demo', () => {
-  runSequence('build');
+  runSequence('clean', 'clean:vendors', 'install:vendors', 'vendors', 'dev:html', 'dev:sass', 'dev:js');
 });
 
 gulp.task('build', () => {
-  runSequence('clean', 'clean:vendors', 'install:vendors', 'vendors', 'html', 'sass', 'js');
+  runSequence('clean', 'clean:vendors', 'install:vendors', 'vendors', 'build:html', 'build:sass', 'build:js');
 });
+
 
 function formatComponentName() {
   return componentName.split(/-/).map(substring =>
     `${substring.charAt(0).toUpperCase()}${substring.substr(1)}`
   ).join(' ');
 }
+
+
 
 
