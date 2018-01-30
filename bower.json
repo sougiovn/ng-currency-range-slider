@@ -16,7 +16,7 @@
     "tests"
   ],
   "dependencies": {
-    "currency-range-slider": "v1.0.0",
+    "currency-range-slider": "1.0.0",
     "angular": "1.2"
   }
 }
