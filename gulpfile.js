@@ -74,13 +74,8 @@ gulp.task('install:vendors', () => {
     .pipe(gulp.dest(vendors));
 });
 
-gulp.task('vendors', () => {
-  return gulp.src(`${vendors}*`)
-    .pipe(gulp.dest(`${dist}/vendors`));
-});
-
 gulp.task('build', () => {
-  runSequence('clean', 'clean:vendors', 'install:vendors', 'vendors', 'html', 'sass', 'js');
+  runSequence('clean', 'clean:vendors', 'install:vendors', 'html', 'sass', 'js');
 });
 
 function formatComponentName() {
