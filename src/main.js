@@ -4,7 +4,7 @@
   angular
     .module('demo', ['nggs.currency-range-slider'])
     .config(config)
-    .controller('demoController', demoController);
+    .controller('demoController', controller);
   
   config.$inject = ['ngCurrencyRangeSliderConfigProvider'];
   
@@ -14,7 +14,7 @@
     });
   }
   
-  function demoController() {
+  function controller() {
     var self = this;
   
     self.basicSlider = {
