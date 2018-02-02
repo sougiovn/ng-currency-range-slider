@@ -6,12 +6,6 @@
     .directive('ngCurrencyRangeSlider', directive);
   
   function provider() {
-    var provider = this;
-    
-    provider.$get = function () {
-      return provider;
-    }
-    
     var defaults = {
       colors: null,
       debounceTime: null,
@@ -24,7 +18,13 @@
       valueFormatter: null,
       valueParser: null
     };
+  
+    var provider = this;
     
+    provider.$get = function () {
+      return provider;
+    
+    }
     provider.getDefaults = getDefaults;
     provider.setDefaults = setDefaults;
     
@@ -79,18 +79,42 @@
       var $maxRange, $minRange;
       
       init();
-      
+  
+      function destroy() {
+        $maxRange();
+        $minRange();
+    
+        var destroyEvent = document.createEvent('Event');
+        destroyEvent.initEvent('destroy', false, false);
+        rootElement.dispatchEvent(destroyEvent);
+    
+        rootElement.removeEventListener('rangeChange', emitRangeChange, true);
+      }
+  
+      function emitRangeChange(event) {
+        range = event.detail;
+        if (isNotUndefined($scope.range)) {
+          $scope.range.min = range.min;
+          $scope.range.max = range.max;
+        };
+        $scope.onRangeChange({ $event: range });
+    
+        $timeout(function() {
+          $scope.$apply()
+        });
+      }
+  
       function init() {
         setupConfig();
         setupComponent();
         setupListeners();
         setupDestroy();
       }
-      
+  
       function setupComponent() {
         CurrencyRangeSlider(rootElement, ngCurrencyRangeSliderConfig.getDefaults(config));
       }
-      
+  
       function setupListeners() {
         $maxRange = $scope.$watch('range.max', function(newValue) {
           if (isNotNull(newValue) != range.max) {
@@ -106,52 +130,7 @@
         });
         rootElement.addEventListener('rangeChange', emitRangeChange, true);
       }
-      
-      function setupDestroy() {
-        $element.on('$destroy', function () {
-          if (destroy) {
-            destroy();
-          }
-          $scope.$destroy();
-        });
   
-        $scope.$on('$destroy', function () {
-          if (destroy) {
-            destroy();
-          }
-        });
-      }
-      
-      function destroy() {
-        $maxRange();
-        $minRange();
-        
-        var destroyEvent = document.createEvent('Event');
-        destroyEvent.initEvent('destroy', false, false);
-        rootElement.dispatchEvent(destroyEvent);
-        
-        rootElement.removeEventListener('rangeChange', emitRangeChange, true);
-      }
-      
-      function setRange() {
-        var rangeChangeEvent = document.createEvent('CustomEvent');
-        rangeChangeEvent.initCustomEvent('setRange', true, false, range);
-        rootElement.dispatchEvent(rangeChangeEvent);
-      }
-      
-      function emitRangeChange(event) {
-        range = event.detail;
-        if (isNotUndefined($scope.range)) {
-          $scope.range.min = range.min;
-          $scope.range.max = range.max;
-        };
-        $scope.onRangeChange({ $event: range });
-
-        $timeout(function() {
-          $scope.$apply()
-        });
-      }
-      
       function setupConfig() {
         if (isNotNull($scope.colors)) {
           config.colors = $scope.colors;
@@ -188,6 +167,27 @@
           config.valueParser = $scope.valueParser;
         }
       }
+  
+      function setupDestroy() {
+        $element.on('$destroy', function () {
+          if (destroy) {
+            destroy();
+          }
+          $scope.$destroy();
+        });
+  
+        $scope.$on('$destroy', function () {
+          if (destroy) {
+            destroy();
+          }
+        });
+      }
+      
+      function setRange() {
+        var rangeChangeEvent = document.createEvent('CustomEvent');
+        rangeChangeEvent.initCustomEvent('setRange', true, false, range);
+        rootElement.dispatchEvent(rangeChangeEvent);
+      }
     }
   }
   
@@ -195,12 +195,12 @@
     return !isNull(param);
   }
   
-  function isNull(param) {
-    return param == null;
-  }
-  
   function isNotUndefined(param) {
     return typeof param !== 'undefined';
+  }
+  
+  function isNull(param) {
+    return param == null;
   }
   
 })();
