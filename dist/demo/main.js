@@ -1,22 +1,24 @@
 (function NgCurrencyRangeSliderDemo() {
   'use strict';
-  
+
   angular
     .module('demo', ['nggs.currency-range-slider'])
     .config(config)
     .controller('demoController', demoController);
-  
+
   config.$inject = ['ngCurrencyRangeSliderConfigProvider'];
-  
+
   function config(ngCurrencyRangeSliderConfig) {
     ngCurrencyRangeSliderConfig.setDefaults({
       inputEnter: true
     });
   }
-  
+
   function demoController() {
     var self = this;
-  
+
+    self.test = {};
+
     self.basicSlider = {
       min: 0,
       max: 100,
@@ -25,7 +27,7 @@
         max: 100
       }
     }
-  
+
     self.labelSlider = {
       min: 0,
       max: 100,
@@ -35,7 +37,7 @@
         max: 100
       }
     }
-  
+
     self.coloredSlider = {
       min: 0,
       max: 100,
@@ -54,7 +56,7 @@
         viewerInputBottomBorder: 'yellow'
       }
     }
-  
+
     self.changeSlider = {
       min: 0,
       max: 100,
@@ -63,10 +65,10 @@
         max: 89
       }
     }
-    
+
     self.onRangeChange = function(range) {
       console.log('onRangeChange', range, self.changeSlider.range)
     }
   }
-  
+
 })();

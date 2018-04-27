@@ -3,16 +3,16 @@
 
 <head>
   <meta charset="UTF-8"/>
-  
+
   <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
-  
+
   <title>Ng Currency Range Slider</title>
-  
+
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
   <link rel="stylesheet" href="./dist/demo/styles.css"/>
   <link rel="stylesheet" href="./vendors/currency-range-slider.min.css"/>
-  
+
   <script src="./vendors/currency-range-slider.min.js"></script>
   <script src="./vendors/angular.js"></script>
 </head>
@@ -61,7 +61,7 @@
 function rangeUpdated(newRange) {
   // do something when range is updated
 }</pre>
-    
+
     <h6>Diretiva completa</h6>
     <pre>&lt;ng-currency-range-slider
   colors="{
@@ -73,19 +73,20 @@ function rangeUpdated(newRange) {
     viewerColor,
     viewerInputBottomBorder
   }"
+  ng-model="object"
   debounce-time="number"
   input-enter="boolean"
   label-prefix="string"
   limit-to-range="boolean"
   max="number"
   min="number"
-  on-range-change="callback function"
+  ng-change="callback function"
   range="{ min, max }"
   value-formatter="function reference"
   value-parser="function reference"&gt;
 &lt;/ng-currency-range-slider&gt;</pre>
   </div>
-  
+
   <div class="col-12">
     <h3 class="anchor" id="config">
       Configuração <a href="#config"><i class="fa fa-link"></i></a>
@@ -97,7 +98,7 @@ function rangeUpdated(newRange) {
     <h6>Exemplo</h6>
     <pre>angular.module('yourApp', ['nggs.currency-range-slider'])
   .config(config);
-  
+
 config.$inject = ['ngCurrencyRangeSliderConfigProvider'];
 
 function config(ngCurrencyRangeSliderConfig) {
@@ -115,6 +116,7 @@ function config(ngCurrencyRangeSliderConfig) {
 }</pre>
   </div>
 </div>
+
 
 <script type="text/javascript" src="./dist/demo/ng-currency-range-slider.js"></script>
 <script type="text/javascript" src="./dist/demo/main.js"></script>
