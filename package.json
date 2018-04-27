@@ -1,7 +1,7 @@
 {
   "name": "ng-currency-range-slider",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/ng-currency-range-slider.js",
   "repository": "git@github.com:gigioSouza/ng-currency-range-slider.git",
   "author": "Giovane Souza <giovane.bds@gmail.com>",
   "license": "MIT",
