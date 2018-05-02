@@ -17,8 +17,6 @@
   function demoController() {
     var self = this;
 
-    self.test = {};
-
     self.basicSlider = {
       min: 0,
       max: 100,

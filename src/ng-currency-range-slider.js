@@ -65,7 +65,7 @@
         valueFormatter: '=',
         valueParser: '=',
         ngModel: '=',
-        onRangeChange: '&'
+        ngChange: '&'
       },
       link: ngCurrencyRangeSlider
     }
@@ -142,7 +142,7 @@
       function emitRangeChange(event) {
         range = event.detail;
 
-        $scope.onRangeChange({
+        $scope.ngChange({
           $event: {
             min: range.min,
             max: range.max
