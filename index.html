@@ -48,7 +48,7 @@
     <pre>angular.module('yourApp', ['nggs.currency-range-slider']);</pre>
     <p>
       Os atributos de configuração do componente original foram transformados em atributos da diretiva. <br/>
-      O atributo <code>ng-change-change</code> é o callback chamado quando há alteração de valores.
+      O atributo <code>ng-change</code> é o callback chamado quando há alteração de valores.
       Nele é passado o parâmetro <code>$event</code> que corresponde a um objeto contendo o novo intervalo
       selecionado({min, max}).
     </p>
@@ -81,7 +81,7 @@ function rangeUpdated(newRange) {
   max="number"
   min="number"
   ng-change="callback function"
-  range="{ min, max }"
+  ng-model="{ min, max }"
   value-formatter="function reference"
   value-parser="function reference"&gt;
 &lt;/ng-currency-range-slider&gt;</pre>
